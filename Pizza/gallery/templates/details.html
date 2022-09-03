@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ pizza.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-8" style="margin-top: 100px;
+                                 margin-bottom: 100px;">
+        <img src="{{pizza.image.url}}" class="img-responsive gallery-img" alt="Pizza 1"></div>
+
+    <div class="col-md-4" style="margin-top: 100px;
+                                 margin-bottom: 100px;
+                                 height:420px;">
+        <h3>{{pizza.title}}</h3>
+        <h5>{{ pizza.description}}</h5>
+        <div style="position: absolute;
+                                    bottom: 0;">
+            <h3>{{ pizza.price }} BYN</h3>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

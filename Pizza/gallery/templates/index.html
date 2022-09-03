@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block content %}
+
+<body id="home" data-spy="scroll" data-target=".navbar-collapse">
+<!-- start flexslider -->
+<div class="flexslider">
+    <ul class="slides">
+        <li>
+            <img src="{% static 'images/slider-img1.jpg' %}" alt="Pizza Image 1">
+            <div class="flex-caption">
+                <h2 class="slider-title">Мы делаем пиццу</h2>
+                <h3 class="slider-subtitle">Fresh, clean, and delicious.</h3>
+                <p class="slider-description">Praesent tincidunt neque semper elementum gravida. Donec id euismod magna.
+                    Ut erat ligula, malesuada eu quam a, fringilla auctor augue.</p>
+            </div>
+        </li>
+        <li>
+            <img src="{% static 'images/slider-img2.jpg' %}" alt="Pizza Image 2">
+            <div class="flex-caption">
+                <h2 class="slider-title">Свежеиспеченная пицца</h2>
+                <h3 class="slider-subtitle">Премиальное качество, лучшие ингредиенты</h3>
+                <p class="slider-description">Donec id euismod magna. Ut erat ligula, malesuada eu quam a, fringilla
+                    auctor augue. Praesent tincidunt neque semper elementum gravida.</p>
+            </div>
+        </li>
+    </ul>
+</div>
+<!-- end flexslider -->
+
+<!-- start about -->
+<section id="about" class="templatemo-section templatemo-top-130">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h1 class="text-uppercase">Пиццерия</h1>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+                    laoreet. Dolore magna aliquam erat volutpat.</p>
+                <p>Proin enim sem, ultricies sit amet convallis nec, sodales quis augue. Duis consequat felis ac justo
+                    luctus, a cursus tellus pharetra. In ullamcorper gravida enim id pulvinar.</p>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <img src="{% static 'images/gallery-img1.jpg' %}" class="img-responsive img-bordered img-about"
+                     alt="about img">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end about -->
+
+<!-- start gallery -->
+
+<section id="gallery" class="templatemo-section templatemo-light-gray-bg">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center text-uppercase">Галерея</h2>
+                <hr>
+            </div>
+            {% for i in all_pizza %}
+            <div class="col-md-3 col-sm-3">
+
+                <div class="gallery-wrapper" style="width: 200px; height: 450px">
+                    <img src="{{i.image.url}}" class="img-responsive gallery-img" alt="Pizza 1">
+                    <div class="gallery-des">
+                        <h3><a href="{{ i.get_absolute_url }}" style="color:#ffa400">{{i.title}}</a></h3>
+                        <h5>{{ i.description|truncatewords_html:10|safe }}</h5>
+                        <div style="position: absolute;
+                                    bottom: 0;">
+                            <h3>{{ i.price }} BYN</h3>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% if page_obj.has_other_pages %}
+
+        <div class="pagination">
+            <div class="nav-links">
+                {% if page_obj.has_previous %}
+                <a class="page-numbers" href="?page={{ page_obj.previous_page_number }}#gallery"> < </a>
+                {% endif %}
+                {% for p in page_obj.paginator.page_range %}
+                {% if page_obj.number == p %}
+                <span class="page-numbers current">{{ p }}</span>
+                {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                <a class="page-numbers" href="?page={{ p }}#gallery">{{ p }}</a>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a class="page-numbers" href="?page={{ page_obj.next_page_number }}#gallery"> > </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+<!-- end gallery -->
+
+<!-- start contact -->
+<section id="contact" class="templatemo-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-uppercase text-center">Свяжитесь с нами</h2>
+                <hr>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="col-md-6 col-sm-6">
+                        <div> {{ form.user_name }}</div>
+                        <div> {{ form.email }}</div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div> {{ form.content }}</div>
+                    </div>
+                    <div class="col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6">
+                        <input name="submit" type="submit" class="form-control" id="submit" value="Отправить">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-4 col-sm-4">
+                <h3 class="padding-bottom-10 text-uppercase">Посети нашу пиццерию</h3>
+                <p><i class="fa fa-map-marker contact-fa"></i> 63 Another Walking Street, BKK 18080</p>
+                <p>
+                    <i class="fa fa-phone contact-fa"></i>
+                    <a href="tel:010-020-0340" class="contact-link">010-020-0340</a>,
+                    <a href="tel:080-090-0660" class="contact-link">080-090-0660</a>
+                </p>
+                <p><i class="fa fa-envelope-o contact-fa"></i>
+                    <a href="mailto:hello@company.com" class="contact-link">hello@company.com</a></p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <h3 class="text-uppercase">Время работы</h3>
+                <p><i class="fa fa-clock-o contact-fa"></i> 7:00 AM - 11:00 PM</p>
+                <p><i class="fa fa-bell-o contact-fa"></i> С понедельника по пятницу</p>
+
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="google_map">
+                    <div id="map-canvas" class="map"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- end contact -->
+
+
+</body>
+{% endblock %}
